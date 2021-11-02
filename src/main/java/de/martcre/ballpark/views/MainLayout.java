@@ -1,35 +1,16 @@
 package de.martcre.ballpark.views;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.RouterLink;
+import de.martcre.ballpark.views.about.AboutView;
+import de.martcre.ballpark.views.helloworld.HelloWorldView;
+import de.martcre.ballpark.views.tabber.TabberView;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.ComponentUtil;
-import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.charts.model.Navigation;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.ListItem;
-import com.vaadin.flow.component.html.Nav;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.html.UnorderedList;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
-import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.PageTitle;
-import de.martcre.ballpark.views.MainLayout;
-import de.martcre.ballpark.views.helloworld.HelloWorldView;
-import de.martcre.ballpark.views.about.AboutView;
-import com.vaadin.flow.component.avatar.Avatar;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -37,34 +18,26 @@ import com.vaadin.flow.component.avatar.Avatar;
 @PageTitle("Main")
 public class MainLayout extends AppLayout {
 
-    public static class MenuItemInfo {
-
-        private String text;
-        private String iconClass;
-        private Class<? extends Component> view;
-
-        public MenuItemInfo(String text, String iconClass, Class<? extends Component> view) {
-            this.text = text;
-            this.iconClass = iconClass;
-            this.view = view;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public String getIconClass() {
-            return iconClass;
-        }
-
-        public Class<? extends Component> getView() {
-            return view;
-        }
-
-    }
-
     public MainLayout() {
         addToNavbar(createHeaderContent());
+    }
+
+    private static RouterLink createLink(MenuItemInfo menuItemInfo) {
+        RouterLink link = new RouterLink();
+        link.addClassNames("flex", "h-m", "items-center", "px-s", "relative", "text-secondary");
+        link.setRoute(menuItemInfo.getView());
+
+        Span icon = new Span();
+        icon.addClassNames("me-s", "text-l");
+        if (!menuItemInfo.getIconClass().isEmpty()) {
+            icon.addClassNames(menuItemInfo.getIconClass());
+        }
+
+        Span text = new Span(menuItemInfo.getText());
+        text.addClassNames("font-medium", "text-s", "whitespace-nowrap");
+
+        link.add(icon, text);
+        return link;
     }
 
     private Component createHeaderContent() {
@@ -101,6 +74,8 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("About", "la la-file", AboutView.class), //
 
+                new MenuItemInfo("Tabber", "la la-table", TabberView.class), //
+
         };
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {
@@ -110,22 +85,30 @@ public class MainLayout extends AppLayout {
         return links;
     }
 
-    private static RouterLink createLink(MenuItemInfo menuItemInfo) {
-        RouterLink link = new RouterLink();
-        link.addClassNames("flex", "h-m", "items-center", "px-s", "relative", "text-secondary");
-        link.setRoute(menuItemInfo.getView());
+    public static class MenuItemInfo {
 
-        Span icon = new Span();
-        icon.addClassNames("me-s", "text-l");
-        if (!menuItemInfo.getIconClass().isEmpty()) {
-            icon.addClassNames(menuItemInfo.getIconClass());
+        private String text;
+        private String iconClass;
+        private Class<? extends Component> view;
+
+        public MenuItemInfo(String text, String iconClass, Class<? extends Component> view) {
+            this.text = text;
+            this.iconClass = iconClass;
+            this.view = view;
         }
 
-        Span text = new Span(menuItemInfo.getText());
-        text.addClassNames("font-medium", "text-s", "whitespace-nowrap");
+        public String getText() {
+            return text;
+        }
 
-        link.add(icon, text);
-        return link;
+        public String getIconClass() {
+            return iconClass;
+        }
+
+        public Class<? extends Component> getView() {
+            return view;
+        }
+
     }
 
 }

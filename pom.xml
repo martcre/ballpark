@@ -12,6 +12,7 @@
     <properties>
         <java.version>11</java.version>
         <vaadin.version>22.0.0.alpha9</vaadin.version>
+        <org.apache.metamodel.version>5.3.3</org.apache.metamodel.version>
     </properties>
 
     <parent>
@@ -80,7 +81,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <!-- Replace artifactId with vaadin-core to use only free components -->
-            <artifactId>vaadin</artifactId>
+            <artifactId>vaadin-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -90,6 +91,17 @@
             <groupId>org.vaadin.artur</groupId>
             <artifactId>a-vaadin-helper</artifactId>
             <version>1.7.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.metamodel</groupId>
+            <artifactId>MetaModel-core</artifactId>
+            <version>${org.apache.metamodel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.metamodel</groupId>
+            <artifactId>MetaModel-jdbc</artifactId>
+            <version>${org.apache.metamodel.version}</version>
         </dependency>
 
         <dependency>
